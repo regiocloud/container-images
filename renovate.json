@@ -1,11 +1,15 @@
 {
+    "$schema": "https://docs.renovatebot.com/renovate-schema.json",
     "extends": [
-        "github>osism/renovate-config",
-        "github>osism/renovate-config:docker",
-        "github>osism/renovate-config:python"
+        "config:recommended"
     ],
-    "regexManagers": [
+    "commitBody": "Signed-off-by: Renovate Bot <bot@renovateapp.com>",
+    "labels": [
+        "renovate"
+    ],
+    "customManagers": [
         {
+            "customType": "regex",
             "fileMatch": [
                 "^\\.github\\/workflows\\/build-.*\\.yml"
             ],
