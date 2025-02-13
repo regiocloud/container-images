@@ -44,7 +44,7 @@ jobs:
       - name: Build container image
         uses: docker/build-push-action@v6
         with:
-          context: images/clusterctl
+          context: netbox-plugins
           push: false
           tags: ghcr.io/regiocloud/netbox-plugins:${{ matrix.version }}
           build-args: |
@@ -54,7 +54,7 @@ jobs:
       - name: Build and push container image
         uses: docker/build-push-action@v6
         with:
-          context: images/clusterctl
+          context: netbox-plugins
           push: true
           tags: ghcr.io/regiocloud/netbox-plugins:${{ matrix.version }}
           build-args: |
