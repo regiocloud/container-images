@@ -1,8 +1,13 @@
 ---
 name: Build netbox-plugins container image
 
+permissions:
+  packages: write
+
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"
   push:
     paths:
       - .github/workflows/build-netbox-plugins-container-image.yml
@@ -15,7 +20,6 @@ on:
       - netbox-plugins/**
 
 jobs:
-
   build-netbox-plugins-container-image:
     runs-on: ubuntu-latest
     strategy:
@@ -23,14 +27,8 @@ jobs:
         version:
           - 3.2.0  # renovate: datasource=docker depName=netbox-community/netbox-docker
     steps:
-      - name: Checkout code
+      - name: Checkout the repository
         uses: actions/checkout@v4
-
-      - name: Install cosign
-        if: github.event_name != 'pull_request'
-        uses: sigstore/cosign-installer@v3
-        with:
-          cosign-release: 'v2.2.4'
 
       - name: Setup docker
         uses: docker/setup-buildx-action@v3
@@ -41,21 +39,24 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-        if: github.ref == 'refs/heads/main'
+        if: github.repository == 'regiocloud/container-images' && github.ref == 'refs/heads/main'
 
-      - name: Extract Container metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: regiocloud/netbox-plugins
-
-      - name: Build and push Container image
-        id: build-and-push
+      - name: Build container image
         uses: docker/build-push-action@v6
         with:
-          context: ./netbox/
-          push: ${{ github.event_name != 'pull_request' }}
-          tags: regiocloud/netbox-plugins:${{ matrix.version }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          context: netbox-plugins
+          push: false
+          tags: ghcr.io/regiocloud/netbox-plugins:${{ matrix.version }}
+          build-args: |
+            VERSION=${{ matrix.version }}
+        if: github.repository == 'regiocloud/container-images' && github.ref != 'refs/heads/main'
+
+      - name: Build and push container image
+        uses: docker/build-push-action@v6
+        with:
+          context: netbox-plugins
+          push: true
+          tags: ghcr.io/regiocloud/netbox-plugins:${{ matrix.version }}
+          build-args: |
+            VERSION=${{ matrix.version }}
+        if: github.repository == 'regiocloud/container-images' && github.ref == 'refs/heads/main'
