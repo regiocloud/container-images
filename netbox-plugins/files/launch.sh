@@ -11,7 +11,7 @@ if [[ $INITIALIZERS_ENABLED == "True" ]]; then
 fi
 
 # Collect static files.
-python3 /opt/netbox/netbox/manage.py netbox_topology_views
+python3 /opt/netbox/netbox/manage.py migrate netbox_topology_views
 python3 /opt/netbox/netbox/manage.py collectstatic --no-input
 
 exec /opt/netbox/launch-netbox.sh
