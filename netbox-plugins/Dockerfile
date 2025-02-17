@@ -1,10 +1,13 @@
-ARG VERSION=v4.2.3  # renovate: datasource=docker depName=ghcr.io/netbox-community/netbox
+ARG VERSION=v4.2.2  # renovate: datasource=docker depName=ghcr.io/netbox-community/netbox
 FROM ghcr.io/netbox-community/netbox:${VERSION}
 
 COPY requirements.txt /requirements.txt
 
-RUN /usr/local/bin/uv pip --no-cache-dir install -U 'pip==25.0.1' \
-    && /usr/local/bin/uv pip --no-cache-dir install -r /requirements.txt
+RUN /opt/netbox/venv/bin/pip --no-cache-dir install -U 'pip==25.0.1' \
+    && /opt/netbox/venv/bin/pip --no-cache-dir install -r /requirements.txt
+
+# RUN /usr/local/bin/uv pip --no-cache-dir install -U 'pip==25.0.1' \
+#     && /usr/local/bin/uv pip --no-cache-dir install -r /requirements.txt
 
 LABEL "org.opencontainers.image.documentation"="https://regiocloud.github.io/docs" \
       "org.opencontainers.image.licenses"="ASL 2.0" \
