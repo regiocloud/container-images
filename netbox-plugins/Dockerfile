@@ -4,8 +4,10 @@ FROM ghcr.io/netbox-community/netbox:${VERSION}
 COPY requirements.txt /requirements.txt
 COPY --chmod=0755 files/launch.sh /opt/netbox/launch.sh
 
-RUN /opt/netbox/venv/bin/pip --no-cache-dir install -U 'pip==25.0.1' \
-    && /opt/netbox/venv/bin/pip --no-cache-dir install -r /requirements.txt
+RUN mkdir -p /opt/netbox/netbox/static/netbox_topology_views/img \
+    && /opt/netbox/venv/bin/pip --no-cache-dir install -U 'pip==25.0.1' \
+    && /opt/netbox/venv/bin/pip --no-cache-dir install -r /requirements.txt \
+    && chown -R unit: /opt/netbox/netbox/static
 
 # RUN /usr/local/bin/uv pip --no-cache-dir install -U 'pip==25.0.1' \
 #     && /usr/local/bin/uv pip --no-cache-dir install -r /requirements.txt
