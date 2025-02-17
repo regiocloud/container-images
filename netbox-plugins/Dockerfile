@@ -5,6 +5,7 @@ COPY requirements.txt /requirements.txt
 COPY --chmod=0755 files/launch.sh /opt/netbox/launch.sh
 
 RUN mkdir -p /opt/netbox/netbox/static/netbox_topology_views/img \
+    && mkdir -p /opt/netbox/netbox/static/netbox_topology_views/js \
     && /opt/netbox/venv/bin/pip --no-cache-dir install -U 'pip==25.0.1' \
     && /opt/netbox/venv/bin/pip --no-cache-dir install -r /requirements.txt
 
