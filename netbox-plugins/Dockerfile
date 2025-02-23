@@ -1,4 +1,4 @@
-ARG VERSION=v4.2.2  # renovate: datasource=docker depName=ghcr.io/netbox-community/netbox
+ARG VERSION=v4.2.4  # renovate: datasource=docker depName=ghcr.io/netbox-community/netbox
 FROM ghcr.io/netbox-community/netbox:${VERSION}
 
 COPY requirements.txt /requirements.txt
