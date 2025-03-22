@@ -25,7 +25,7 @@ jobs:
     strategy:
       matrix:
         version:
-          - v4.2.5  # renovate: datasource=docker depName=ghcr.io/netbox-community/netbox
+          - v4.2.6  # renovate: datasource=docker depName=ghcr.io/netbox-community/netbox
     steps:
       - name: Checkout the repository
         uses: actions/checkout@v4
