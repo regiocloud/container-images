@@ -9,5 +9,5 @@ netbox-config-diff==2.9.0
 netbox-data-flows==1.1.0
 netbox-initializers==4.2.0
 netbox-plugin-dns==1.2.9
-netbox-secrets==2.2.1
+netbox-secrets==2.3.0
 netbox-topology-views==4.2.1
